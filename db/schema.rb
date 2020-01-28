@@ -10,7 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 2020_01_28_094619) do
+  create_table "profiles", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "location"
+    t.string "image"
+    t.string "about_me"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.string "comment"
+    t.integer "rate"
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
@@ -39,10 +53,13 @@ ActiveRecord::Schema.define(version: 2020_01_28_094619) do
     t.string "price_range"
     t.string "location"
     t.text "description"
+
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+
   add_foreign_key "catrgories_services", "categories"
   add_foreign_key "catrgories_services", "services"
+
 end
