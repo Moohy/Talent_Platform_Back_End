@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  root 'profile#index'
-  resources :profile
 
-  get 'profile', to: 'profile#index'
+resources :profile
+
+resources :services do
+  resources :galleries
+end
+resources :categories
+
 end
