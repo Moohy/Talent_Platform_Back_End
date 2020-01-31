@@ -30,17 +30,12 @@ class GalleriesController < ApplicationController
     if @gallery.present?
       @gallery.destroy
       render json: 'gallery has been Deleted !'
-      
-    end
-    
+    end 
   end
-
-
 
   private
-
-  def gallery_params
-    params.require(:gallery).permit(:url) 
-  end
+    def gallery_params
+      params.require(:gallery).permit(:url) 
+    end
 
 end
