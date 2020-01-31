@@ -10,24 +10,100 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_01_27_104058) do
 
-  create_table "offers", force: :cascade do |t|
-    t.float "price" 
-    t.time "time" 
-    t.string "location" 
-    t.string "description" 
-    t.datetime "created_at", precision: 6, null: false 
-    t.datetime "updated_at", precision: 6, null: false 
-  end
+ActiveRecord::Schema.define(version: 2020_01_28_094619) do
 
-  create_table "payments", force: :cascade do |t|
-    t.float "price"
-    t.time "time"
-    t.text "reciept_url"
-    t.string "status"
+  create_table "banks", force: :cascade do |t|
+    t.string "iban"
+    t.string "bank_name"
+    t.string "full_name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "catrgories_services", id: false, force: :cascade do |t|
+    t.integer "service_id", null: false
+    t.integer "category_id", null: false
+    t.index "\"category\"", name: "index_catrgories_services_on_category"
+    t.index "\"service\"", name: "index_catrgories_services_on_service"
+    t.index ["category_id"], name: "index_catrgories_services_on_category_id"
+    t.index ["service_id"], name: "index_catrgories_services_on_service_id"
+  end
+
+  create_table "galleries", force: :cascade do |t|
+    t.text "url"
+    t.integer "service_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["service_id"], name: "index_galleries_on_service_id"
+  end
+
+  create_table "jwt_blacklist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.index ["jti"], name: "index_jwt_blacklist_on_jti"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.string "first_name"
+    t.string "last_name"
+    t.string "location"
+    t.string "image"
+    t.string "about_me"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "ratings", force: :cascade do |t|
+    t.string "comment"
+    t.integer "rate"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "role_users", id: false, force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "role_id", null: false
+    t.index "\"role\"", name: "index_role_users_on_role"
+    t.index "\"user\"", name: "index_role_users_on_user"
+    t.index ["role_id"], name: "index_role_users_on_role_id"
+    t.index ["user_id"], name: "index_role_users_on_user_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "title"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "services", force: :cascade do |t|
+    t.string "price_range"
+    t.string "location"
+    t.text "description"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "username", default: "", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  add_foreign_key "catrgories_services", "categories"
+  add_foreign_key "catrgories_services", "services"
+  add_foreign_key "role_users", "roles"
+  add_foreign_key "role_users", "users"
 end
