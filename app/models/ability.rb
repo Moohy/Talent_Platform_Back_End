@@ -9,24 +9,26 @@ class Ability
     alias_action :read, :update, to: :ru
     alias_action :create, :read, :update, to: :cru
       user ||= User.new # guest user (not logged in)
-      if user.role.title == "admin"
+      if user.role? "admin"
         can :manage, :all
-      elsif user.role.title == 'seller'
+      elsif user.role? 'seller'
         can :manage, Service, user_id: user.id
         can :manage, Gallery, service:{user:{id: user.id}}
-        can :edit, Offer, service: {user_id: user.id} #func for editing
+        puts user.id
+        can [:read, :edit], Offer, service: {user: {id: user.id}} #func for editing
         can :read, Category
-        can :read, Rate
+        # can :read, Rate
         can :read, Payment, offer: {service: {user_id: user.id}}
         can :ru, Profile, user_id: user.id
         can :read, Profile
         can :create, :update, Bank
-      elsif user.role.title == 'buyer'
+      elsif user.role? 'buyer'
+        can :read, Service
         can :manage, Offer, user_id: user.id
         can :create, Payment, offer: {user_id: user.id}
         can :read, Category
         can :read, Gallery
-        can :cru, Rate
+        # can :cru, Rate
         can :ru, Profile, user_id: user.id
         can :read, Profile
         can :read, Bank

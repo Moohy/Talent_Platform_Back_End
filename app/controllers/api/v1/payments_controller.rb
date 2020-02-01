@@ -1,7 +1,8 @@
-class PaymentsController < ApplicationController
-
+class Api::V1::PaymentsController < ApiController
+  load_and_authorize_resource :offer 
+  
     def index
-        @payments = Payment.all
+        @payments = Payment.where(offer_id: params[:offer_id])
         render json: @payments
     end
 
@@ -15,10 +16,13 @@ class PaymentsController < ApplicationController
 
     def create
         @payment = Payment.new(payment_params)
+        @payment.offer_id = params[:offer_id]
+        @payment.user_id = current_user.id
+        @payment.status = "pending"
         if @payment.save
           render json: [@payment, message: 'payment was successfully created.']
         else
-          render json: "dsmjfhfk"
+          render json: [@payment.errors, message: 'payment was not created.']
         end
     end
     
@@ -47,7 +51,7 @@ class PaymentsController < ApplicationController
     
         # Never trust parameters from the scary internet, only allow the white list through.
         def payment_params
-          params.require(:payment).permit(:price, :time, :reciept_url,:status)
+          params.require(:payment).permit(:price, :time, :reciept_url)
         end
 
 

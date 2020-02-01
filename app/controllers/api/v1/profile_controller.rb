@@ -1,4 +1,4 @@
-class ProfileController < ApplicationController
+class Api::V1::ProfileController < ApiController
     
     def show
         @profile = Profile.find(params[:id])

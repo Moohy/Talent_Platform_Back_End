@@ -1,12 +1,14 @@
-class CategoriesController < ApplicationController
+class Api::V1::CategoriesController < ApiController
+  load_and_authorize_resource
   def index
     @categories = Category.all
     render json: @categories
   end
 
   def show
-    @categories = Category.find(params[:id])
-    render json: @categories
+    @category = Category.find(params[:id])
+    @services = @category.services
+    render json: {category: @category,services: @services}
   end
 
   def edit

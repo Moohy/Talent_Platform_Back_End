@@ -1,4 +1,4 @@
-class RatingController < ApplicationController
+class Api::V1::RatingController < ApiController
     
     def show
         @rate = Rate.all

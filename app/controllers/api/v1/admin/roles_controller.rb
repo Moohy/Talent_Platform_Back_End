@@ -1,4 +1,4 @@
-class Api::V1::Admin::RolesController < ApplicationController
+class Api::V1::Admin::RolesController < ApiController
     before_action :set_role, only: [:edit, :update, :destroy]
       def index
         @roles = Role.all

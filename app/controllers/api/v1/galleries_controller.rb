@@ -1,4 +1,5 @@
-class GalleriesController < ApplicationController
+class Api::V1::GalleriesController < ApiController
+  load_and_authorize_resource
   def create
     @service = Service.find(params[:service_id])
     @gallery = @service.galleries.new(gallery_params)

@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
+  
+  
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   devise_for :users,
-  path: '/api/v1/',
+  path: '',
   path_names: {
     sign_in: 'login',
     sign_out: 'logout',
@@ -9,14 +13,20 @@ Rails.application.routes.draw do
   controllers: {
     sessions: 'api/v1/sessions',
     registrations: 'api/v1/registrations'
-  } do
-    resources :profile
-  end
+  }
+
+  get "is_loggedin", to: "api#is_loggedin"
+  get "user_type", to: "api#user_type"
 
   namespace :api do
     namespace :v1 do
+      get "user_services", to: "services#user_services"
       resources :services do
+        
         resources :galleries
+        resources :offers do
+          resources :payments
+        end
       end
       resources :categories, only: [:show, :index]
       namespace :admin do
@@ -26,6 +36,4 @@ Rails.application.routes.draw do
     end
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
-  resources :payments
-  resources :offers
 end
