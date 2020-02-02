@@ -10,7 +10,7 @@ class CreateOffers < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_index :offers, :user
+    # add_index :offers, :user
     add_index :offers, :service
     #Ex:- add_index("admin_users", "username")
     #Ex:- add_index("admin_users", "username")

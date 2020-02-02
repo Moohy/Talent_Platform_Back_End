@@ -8,6 +8,6 @@ class CreateServices < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_index :services, :user
+    # add_index :services, :user
   end
 end
