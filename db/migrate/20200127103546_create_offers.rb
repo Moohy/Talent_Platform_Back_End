@@ -6,12 +6,12 @@ class CreateOffers < ActiveRecord::Migration[6.0]
       t.string :location
       t.string :description
       # t.references :user, null: false, foreign_key: true
-      t.references :service#, null: false, foreign_key: true
+      t.references :service, null: false, foreign_key: true
 
       t.timestamps
     end
     # add_index :offers, :user
-    add_index :offers, :service
+    # add_index :offers, :service
     #Ex:- add_index("admin_users", "username")
     #Ex:- add_index("admin_users", "username")
   end
