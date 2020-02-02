@@ -10,7 +10,7 @@ class CreatePayments < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_index :payments, :offer
+    # add_index :payments, :offer
     # add_index :payments, :user
   end
 end
