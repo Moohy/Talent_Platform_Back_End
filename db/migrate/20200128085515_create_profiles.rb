@@ -6,6 +6,7 @@ class CreateProfiles < ActiveRecord::Migration[6.0]
       t.string :location
       t.string :image
       t.string :about_me
+      t.references :user
 
       t.timestamps
     end

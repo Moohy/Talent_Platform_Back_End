@@ -4,6 +4,7 @@ class CreateBanks < ActiveRecord::Migration[6.0]
       t.string :iban
       t.string :bank_name
       t.string :full_name
+      t.references :user
 
       t.timestamps
     end

@@ -6,7 +6,7 @@ class CreateOffers < ActiveRecord::Migration[6.0]
       t.string :location
       t.string :description
       # t.references :user, null: false, foreign_key: true
-      t.references :service, null: false, foreign_key: true
+      t.references :service#, null: false, foreign_key: true
 
       t.timestamps
     end
