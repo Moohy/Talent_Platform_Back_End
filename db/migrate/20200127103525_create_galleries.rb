@@ -6,6 +6,6 @@ class CreateGalleries < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_index :galleries, :service_id, unique: true
+    # add_index :galleries, :service_id, unique: true
   end
 end
