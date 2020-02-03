@@ -32,6 +32,8 @@ class Ability
         can :ru, Profile, user_id: user.id
         can :read, Profile
         can :read, Bank
+      else
+        can :read, Service
       end
     #
     # The first argument to `can` is the action you are giving the user

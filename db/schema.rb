@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_01_162512) do
+ActiveRecord::Schema.define(version: 2020_02_02_081119) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -42,8 +42,10 @@ ActiveRecord::Schema.define(version: 2020_02_01_162512) do
     t.string "iban"
     t.string "bank_name"
     t.string "full_name"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_banks_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -55,15 +57,13 @@ ActiveRecord::Schema.define(version: 2020_02_01_162512) do
   create_table "category_services", force: :cascade do |t|
     t.integer "service_id", null: false
     t.integer "category_id", null: false
-    t.index "\"category\"", name: "index_category_services_on_category"
-    t.index "\"service\"", name: "index_category_services_on_service"
     t.index ["category_id"], name: "index_category_services_on_category_id"
     t.index ["service_id"], name: "index_category_services_on_service_id"
   end
 
   create_table "galleries", force: :cascade do |t|
     t.text "url"
-    t.integer "service_id"
+    t.integer "service_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["service_id"], name: "index_galleries_on_service_id"
@@ -79,12 +79,10 @@ ActiveRecord::Schema.define(version: 2020_02_01_162512) do
     t.time "time"
     t.string "location"
     t.string "description"
-    t.integer "user_id", null: false
     t.integer "service_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"service\"", name: "index_offers_on_service"
-    t.index "\"user\"", name: "index_offers_on_user"
+    t.integer "user_id"
     t.index ["service_id"], name: "index_offers_on_service_id"
     t.index ["user_id"], name: "index_offers_on_user_id"
   end
@@ -95,11 +93,9 @@ ActiveRecord::Schema.define(version: 2020_02_01_162512) do
     t.text "reciept_url"
     t.string "status"
     t.integer "offer_id", null: false
-    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"offer\"", name: "index_payments_on_offer"
-    t.index "\"user\"", name: "index_payments_on_user"
+    t.integer "user_id"
     t.index ["offer_id"], name: "index_payments_on_offer_id"
     t.index ["user_id"], name: "index_payments_on_user_id"
   end
@@ -110,8 +106,10 @@ ActiveRecord::Schema.define(version: 2020_02_01_162512) do
     t.string "location"
     t.string "image"
     t.string "about_me"
+    t.integer "user_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_profiles_on_user_id"
   end
 
   create_table "ratings", force: :cascade do |t|
@@ -138,10 +136,9 @@ ActiveRecord::Schema.define(version: 2020_02_01_162512) do
     t.string "price_range"
     t.string "location"
     t.text "description"
-    t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index "\"user\"", name: "index_services_on_user"
+    t.integer "user_id"
     t.index ["user_id"], name: "index_services_on_user_id"
   end
 
@@ -160,11 +157,9 @@ ActiveRecord::Schema.define(version: 2020_02_01_162512) do
 
   add_foreign_key "category_services", "categories"
   add_foreign_key "category_services", "services"
+  add_foreign_key "galleries", "services"
   add_foreign_key "offers", "services"
-  add_foreign_key "offers", "users"
   add_foreign_key "payments", "offers"
-  add_foreign_key "payments", "users"
   add_foreign_key "role_users", "roles"
   add_foreign_key "role_users", "users"
-  add_foreign_key "services", "users"
 end

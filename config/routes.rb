@@ -37,3 +37,8 @@ Rails.application.routes.draw do
   end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
+
+
+# api/v1/services/1/offers/1/payments
+# api/v1/user_services
+# api/v1/categories/
