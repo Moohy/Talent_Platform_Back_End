@@ -5,7 +5,7 @@ class Api::V1::ServicesController < ApiController
     @services = Service.all
     @s = @services.map do |s|
       # {service: s, offers: Offer.where(service_id: s.id).joins(:service)}
-      {service: s, galleries: s.galleries, categories: s.categories}
+      {service: s, user: s.user.username, galleries: s.galleries, categories: s.categories}
     end
     render json: @services
   end  
@@ -16,7 +16,7 @@ class Api::V1::ServicesController < ApiController
     # puts @services
     @s = @services.map do |s|
       # {service: s, offers: Offer.where(service_id: s.id).joins(:service)}
-      {service: s, galleries: s.galleries, categories: s.categories, offers: s.offers}
+      {service: s, user: s.user.username, galleries: s.galleries, categories: s.categories, offers: s.offers}
     end
     render json: @s
   end
@@ -83,6 +83,6 @@ class Api::V1::ServicesController < ApiController
   private
 
   def service_params
-    params.require(:service).permit(:price_range, :location, :description)
+    params.require(:service).permit(:price_range, :location, :description, :name)
     end
 end
