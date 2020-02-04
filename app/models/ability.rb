@@ -15,7 +15,7 @@ class Ability
         can :manage, Service, user_id: user.id
         can :manage, Gallery, service:{user:{id: user.id}}
         puts user.id
-        can [:read, :edit], Offer, service: {user: {id: user.id}} #func for editing
+        can [:read, :accept], Offer, service: {user: {id: user.id}} #func for editing
         can :read, Category
         # can :read, Rate
         can :read, Payment, offer: {service: {user_id: user.id}}
@@ -24,7 +24,7 @@ class Ability
         can :create, :update, Bank
       elsif user.role? 'buyer'
         can :read, Service
-        can :manage, Offer, user_id: user.id
+        can [:cru, :decline], Offer, user_id: user.id
         can :create, Payment, offer: {user_id: user.id}
         can :read, Category
         can :read, Gallery

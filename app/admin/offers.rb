@@ -5,7 +5,7 @@ ActiveAdmin.register Offer do
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  permit_params :price, :time, :location, :description, :user_id, :service_id
+  permit_params :price, :time, :location, :description, :user_id, :service_id, :status
   #
   # or
   #

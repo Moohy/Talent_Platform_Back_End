@@ -1,5 +1,6 @@
 class Api::V1::PaymentsController < ApiController
   load_and_authorize_resource :offer 
+  load_and_authorize_resource through: :offer 
   
     def index
         @payments = Payment.where(offer_id: params[:offer_id])

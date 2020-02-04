@@ -21,10 +21,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       get "user_services", to: "services#user_services"
+      get "user_offers", to: "offers#user_offers"
       resources :services do
         
         resources :galleries
         resources :offers do
+          get "accept_offer", to: "offers#accept"
+          get "decline_offer", to: "offers#decline"
           resources :payments
         end
       end
