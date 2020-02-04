@@ -2,15 +2,13 @@ class Api::V1::CategoriesController < ApiController
   load_and_authorize_resource
   def index
     @categories = Category.all
-    render json: @categories
-    @categories = Category.all
     @categories_hash = @categories.map do |c|
       service_hash = c.services.map do |s|
-        {service: s, s.galleries}
+        {service: s, galleries: s.galleries}
       end
-    {category: c, services: {service_hash}}
+      {category: c, services: service_hash}
     end
-    render json: @offers_hash
+    render json: @categories_hash
   end
 
   def show
