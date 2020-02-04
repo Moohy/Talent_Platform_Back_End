@@ -5,10 +5,10 @@ class Api::V1::ServicesController < ApiController
 
   def index
     @services = Service.all
-    @s = @services.map do |s|
+    @services_hash = @services.map do |s|
       {service: s, user: s.user.username, galleries: s.galleries, categories: s.categories}
     end
-    render json: @services
+    render json: @services_hash
   end  
 
   def user_services
