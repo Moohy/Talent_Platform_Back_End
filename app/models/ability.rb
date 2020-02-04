@@ -34,6 +34,7 @@ class Ability
         can :read, Bank
       else
         can :read, Service
+        can :read, Category
       end
     #
     # The first argument to `can` is the action you are giving the user
