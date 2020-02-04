@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_03_221342) do
+ActiveRecord::Schema.define(version: 2020_02_04_000542) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -71,6 +71,7 @@ ActiveRecord::Schema.define(version: 2020_02_03_221342) do
 
   create_table "jwt_blacklist", force: :cascade do |t|
     t.string "jti", null: false
+    t.time "exp", null: false
     t.index ["jti"], name: "index_jwt_blacklist_on_jti"
   end
 

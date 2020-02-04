@@ -1,7 +1,7 @@
 class ApiController < ActionController::API
 
     def is_loggedin        
-        render json: {user: current_user, user_type: current_user.role.title, status: !!current_user} if current_user
+        return render json: {user: current_user, user_type: current_user.role.title, status: !!current_user} if current_user
         render json: {status: !!current_user}
     end
 
