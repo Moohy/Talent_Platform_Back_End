@@ -25,7 +25,7 @@ class Ability
       elsif user.role? 'buyer'
         can :read, Service
         can [:cru, :decline], Offer, user_id: user.id
-        can :create, Payment, offer: {user_id: user.id}
+        can [:create, :read], Payment, offer: {user_id: user.id}
         can :read, Category
         can :read, Gallery
         # can :cru, Rate
