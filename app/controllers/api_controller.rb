@@ -1,5 +1,10 @@
 class ApiController < ActionController::API
 
+    rescue_from CanCan::AccessDenied do |exception|
+        render json: {errors:exception.message}
+
+    end
+
     def is_loggedin        
         return render json: {user: current_user, user_type: current_user.role.title, status: !!current_user} if current_user
         render json: {status: !!current_user}

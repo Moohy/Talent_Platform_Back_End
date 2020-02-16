@@ -1,4 +1,5 @@
 class Api::V1::RegistrationsController < Devise::RegistrationsController
+    clear_respond_to 
     respond_to :json
   
     def create
@@ -8,8 +9,8 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
       render_resource(resource)
     end
 
-    private
-    def sign_up_params
-        params.require(:user).permit(:email, :username, :password)
-    end
+    # private
+    # def sign_up_params
+    #     params.require(:user).permit(:email, :username, :password)
+    # end
   end

@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   controllers: {
     sessions: 'api/v1/sessions',
     registrations: 'api/v1/registrations'
-  }
+  },defaults: { format: :json }
 
   get "is_loggedin", to: "api#is_loggedin"
   get "user_type", to: "api#user_type"

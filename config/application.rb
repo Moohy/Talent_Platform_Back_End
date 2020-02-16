@@ -21,6 +21,9 @@ Bundler.require(*Rails.groups)
 
 module TalentPlatforme
   class Application < Rails::Application
+    # config.to_prepare do
+    #   DeviseController.respond_to  :json
+    # end
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 6.0
 
