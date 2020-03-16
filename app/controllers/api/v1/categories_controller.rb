@@ -4,7 +4,9 @@ class Api::V1::CategoriesController < ApiController
     @categories = Category.all
     @categories_hash = @categories.map do |c|
       service_hash = c.services.map do |s|
-        {service: s, galleries: s.galleries}
+        {service: s, medium: s.medium.map { |media|
+        media.as_json.merge({ media: url_for(media) })
+      }}#, galleries: s.galleries}
       end
       {category: c, services: service_hash}
     end

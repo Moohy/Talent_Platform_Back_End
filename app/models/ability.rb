@@ -14,7 +14,6 @@ class Ability
       elsif user.role? 'seller'
         can :manage, Service, user_id: user.id
         can :manage, Gallery, service:{user:{id: user.id}}
-        puts user.id
         can [:read, :accept, :decline], Offer, service: {user: {id: user.id}} #func for editing
         can :read, Category
         # can :read, Rate

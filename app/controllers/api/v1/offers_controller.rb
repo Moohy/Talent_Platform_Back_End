@@ -12,7 +12,10 @@ class Api::V1::OffersController < ApiController
         if current_user.role? "buyer"
             @offers = Offer.where(user: current_user)
             @offers_hash = @offers.map do |offer|
-            {offer: offer, user: offer.user.username, service: offer.service, service_galleries: offer.service.galleries, payments: offer.payments}
+                {offer: offer, user: offer.user.username, service: offer.service, service_medium: offer.service.medium.map { |media|
+                        media.as_json.merge({ media: url_for(media) })
+                    }, payments: offer.payments
+                }
             end
             render json: @offers_hash
         else

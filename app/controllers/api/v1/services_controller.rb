@@ -6,7 +6,10 @@ class Api::V1::ServicesController < ApiController
   def index
     @services = Service.all
     @services_hash = @services.map do |s|
-      {service: s, user: s.user.username, galleries: s.galleries, categories: s.categories}
+      {service: s, medium: s.medium.map { |media|
+        media.as_json.merge({ media: url_for(media) })
+      }, user: s.user.username, categories: s.categories}#, galleries: s.galleries
+      
     end
     render json: @services_hash
   end  
@@ -14,7 +17,10 @@ class Api::V1::ServicesController < ApiController
   def user_services
     @services = Service.where(user: current_user)
     @services_hash = @services.map do |s|
-      {service: s, user: s.user.username, galleries: s.galleries, categories: s.categories, offers: s.offers}
+      {service:s, medium: s.medium.map { |media|
+      media.as_json.merge({ media: url_for(media) })
+    }, user: s.user.username, categories: s.categories, offers: s.offers}#, galleries: s.galleries
+      
     end
     render json: @services_hash
   end
@@ -32,21 +38,23 @@ class Api::V1::ServicesController < ApiController
     @service = Service.find(params[:id])
     json_res = {}
     if @service.update(service_params)
-      if service_params[:galleries_attributes]
-        galleries_urls_in_params = service_params[:galleries_attributes].map {|gallery| gallery["url"]}
+      # if service_params[:galleries_attributes]
+      #   galleries_urls_in_params = service_params[:galleries_attributes].map {|gallery| gallery["url"]}
 
-        galleries_to_be_deleted = @service.galleries.map do |gallery|
-          gallery unless galleries_urls_in_params.include? gallery.url
-        end
-        Gallery.delete(galleries_to_be_deleted) if galleries_to_be_deleted.any?
-      end
+      #   galleries_to_be_deleted = @service.galleries.map do |gallery|
+      #     gallery unless galleries_urls_in_params.include? gallery.url
+      #   end
+      #   Gallery.delete(galleries_to_be_deleted) if galleries_to_be_deleted.any?
+      # end
+      # debugger
 
-      if service_params[:category_services_attributes]
-        categories_ids_in_params = service_params[:category_services_attributes].map {|category| category["category_id"]}
+      if service_params[:category_services_attributes].any?
+        categories_ids_in_params = service_params[:category_services_attributes].map {|category| category["category_id"].to_i}
         
         categories_to_be_deleted = @service.category_services.map do |category|
-          category unless categories_ids_in_params.include? category.category_id
+          category if !categories_ids_in_params.include? category.category_id
         end
+        
         CategoryService.delete(categories_to_be_deleted) if categories_to_be_deleted.any?
      end
 
@@ -62,25 +70,9 @@ class Api::V1::ServicesController < ApiController
     @service = Service.new(service_params)
     @service.user = current_user
     @errors = []
-  if @service.save
-    # Category.delete()
-    # params[:categories].each do |categories|
-    #   categories = CategoryService.new(:category_id => categories, :service_id => @service.id)
-    #   if categories.valid?
-    #     categories.save
-    #   else
-    #     @errors += categories.errors
-    #   end
-    # end
 
-    # params[:galleries].each do |galleries|
-    #   galleries = Gallery.new(url: galleries, service_id: @service.id)
-    #   if galleries.valid?
-    #     galleries.save
-    #   else
-    #     @errors += galleries.errors
-    #   end
-    # end
+  if @service.save
+
     render json: 'Service and Categories and Galleries have been Created!'  
   else
     render json: {errors: @service.errors}
@@ -101,7 +93,7 @@ class Api::V1::ServicesController < ApiController
 
   private
 
-  def service_params
-    params.require(:service).permit(:price_range, :location, :description, :name, galleries_attributes: [:url], category_services_attributes: [:category_id] )
+    def service_params
+      params.require(:service).permit(:price_range, :location, :description, :name, medium: [], category_services_attributes: [:category_id])
     end
 end

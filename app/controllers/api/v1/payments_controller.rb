@@ -52,7 +52,7 @@ class Api::V1::PaymentsController < ApiController
     
         # Never trust parameters from the scary internet, only allow the white list through.
         def payment_params
-          params.require(:payment).permit(:price, :time, :reciept_url)
+          params.require(:payment).permit(:price, :time, :receipt)
         end
 
 
